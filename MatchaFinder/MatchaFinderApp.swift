@@ -2,17 +2,19 @@
 //  MatchaFinderApp.swift
 //  MatchaFinder
 //
-//  Created by Samarth Rao on 3/22/26.
-//
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct MatchaFinderApp: App {
+    @State private var directory = ShopDirectoryViewModel()
+    @State private var locationManager = LocationManager()
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            PersistedShop.self,
+            RecentlyViewedShop.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -26,6 +28,8 @@ struct MatchaFinderApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(directory)
+                .environment(locationManager)
         }
         .modelContainer(sharedModelContainer)
     }
